@@ -69,4 +69,6 @@ echo "borg_total_size $TOTAL_SIZE" >> $TMP_FILE
 echo "borg_total_size_compressed $TOTAL_SIZE_COMPRESSED" >> $TMP_FILE
 echo "borg_total_size_dedup $TOTAL_SIZE_DEDUP" >> $TMP_FILE
 
-cat $TMP_FILE | curl --data-binary @- ${PUSHGATEWAY_URL}/metrics/job/borg-exporter/host/$HOSTNAME/repository/$REPOSITORY
+REPO_NAME=`echo "$REPOSITORY" | sed "s#ssh://\(.*\)/\./\(.*\)#\1:\2#"`
+
+cat $TMP_FILE | curl --data-binary @- ${PUSHGATEWAY_URL}/metrics/job/borg-exporter/host/$HOSTNAME/repository/$REPO_NAME
